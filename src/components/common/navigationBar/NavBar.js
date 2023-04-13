@@ -13,7 +13,7 @@ const NavBar = () => {
   return (
     <Container maxWidth={false}>
       <Box sx={style}>
-        <Typography variant="h1" align="center" sx={{ flexGrow: 1 }}>
+        <Typography variant="h1" sx={{ flexGrow: 1 }}>
           BloggersMasters
         </Typography>
         <SignButton />

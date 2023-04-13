@@ -9,11 +9,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"))
 const setup = async () => {
   try {
     await initialize()
-    return root.render(
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>
-    )
+    return root.render(<App />)
   } catch (e) {
     return root.render(
       <React.StrictMode>

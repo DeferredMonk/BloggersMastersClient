@@ -22,7 +22,7 @@ export const CreateNewUser = async (user) => {
     const res = await axios.post("https://localhost:7097/api/user", user)
     return await res.data
   } catch (e) {
-    console.log(e.message)
+    throw e
   }
 }
 /**
@@ -33,7 +33,7 @@ export const CreateNewUser = async (user) => {
  */
 export const getUserByIdOrUsername = async (username, id = 0) => {
   try {
-    username = username === "" && "none"
+    username = username === "" ? "none" : username
     const res = await axios.get(
       `https://localhost:7097/api/user/${id}?username=${username}`
     )
