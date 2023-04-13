@@ -1,16 +1,19 @@
 import {
   Button,
+  Checkbox,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
+  FormControlLabel,
   TextField,
 } from "@mui/material"
 import React, { useContext, useRef, useState } from "react"
 import PostHeader from "./PostHeader"
 import { modifyPostById } from "../../../utils/Services/PostService"
 import PostsContext from "../../../utils/PostContext"
+import { CheckBox } from "@mui/icons-material"
 
 const PostModifyDialog = ({ edit, setEdit, post }) => {
   const { modifyPost } = useContext(PostsContext)
@@ -21,6 +24,11 @@ const PostModifyDialog = ({ edit, setEdit, post }) => {
   })
   const [content, setContent] = useState({
     path: "Content",
+    op: "replace",
+    value: "",
+  })
+  const [publicPost, setPublicPost] = useState({
+    path: "PublicPost",
     op: "replace",
     value: "",
   })
@@ -51,12 +59,15 @@ const PostModifyDialog = ({ edit, setEdit, post }) => {
     })
   }
 
-  const handleModifyArray = (objA, objB) =>
-    [objA, objB].filter((o) => o.value !== "")
+  const handleModifyArray = (objA, objB, objC) =>
+    [objA, objB, objC].filter((o) => o.value !== "")
 
   const handleModify = async () => {
     await modifyPost(
-      await modifyPostById(handleModifyArray(title, content), post.id)
+      await modifyPostById(
+        handleModifyArray(title, content, publicPost),
+        post.id
+      )
     )
     handleClose()
   }
@@ -113,6 +124,17 @@ const PostModifyDialog = ({ edit, setEdit, post }) => {
           }}
           fullWidth
           minRows={4}
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              defaultChecked={post.publicPost}
+              onChange={(e) =>
+                setPublicPost({ ...publicPost, value: e.target.checked })
+              }
+            />
+          }
+          label="Published"
         />
       </DialogContent>
       <DialogActions>

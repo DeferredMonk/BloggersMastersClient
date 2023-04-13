@@ -33,13 +33,16 @@ export const getAllPostsOfUser = async (id) => {
  */
 export const addOneToLike = async (agrees, id) => {
   try {
-    const res = await axios.patch(`https://localhost:7097/api/post/${id}`, [
-      {
-        path: "Agrees",
-        op: "replace",
-        value: agrees + 1,
-      },
-    ])
+    const res = await axios.patch(
+      `https://localhost:7097/api/post/${id}?target=likes`,
+      [
+        {
+          path: "Agrees",
+          op: "replace",
+          value: agrees + 1,
+        },
+      ]
+    )
     return await res.data
   } catch (e) {
     console.log(e.message)
@@ -51,13 +54,16 @@ export const addOneToLike = async (agrees, id) => {
  */
 export const addOneToDislike = async (disagrees, id) => {
   try {
-    const res = await axios.patch(`https://localhost:7097/api/post/${id}`, [
-      {
-        path: "Disagrees",
-        op: "replace",
-        value: disagrees + 1,
-      },
-    ])
+    const res = await axios.patch(
+      `https://localhost:7097/api/post/${id}?target=likes`,
+      [
+        {
+          path: "Disagrees",
+          op: "replace",
+          value: disagrees + 1,
+        },
+      ]
+    )
     return await res.data
   } catch (e) {
     console.log(e.message)
@@ -68,9 +74,11 @@ export const addOneToDislike = async (disagrees, id) => {
  * @returns {promise {array}} the new value of liked
  */
 export const modifyPostById = async (data, id) => {
-  console.log(data)
   try {
-    const res = await axios.patch(`https://localhost:7097/api/post/${id}`, data)
+    const res = await axios.patch(
+      `https://localhost:7097/api/post/${id}?target=none`,
+      data
+    )
     return await res.data
   } catch (e) {
     console.log(e.message)

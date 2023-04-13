@@ -9,7 +9,10 @@ export const PostProvider = ({ children }) => {
   const [posts, setPosts] = useState()
   const [currUser, setCurrUser] = useState()
   const [currUserPosts, setCurrUserPosts] = useState()
-
+  /**
+   * Creates or gets a new user, depending on existance of user in database
+   * @param {Object} user the object of the new user
+   */
   const setUser = async (user) => {
     try {
       const newUser = await CreateNewUser(user)
@@ -31,12 +34,20 @@ export const PostProvider = ({ children }) => {
    */
   const modifyPost = async (post) => {
     const postToModify = await post
-    const newPosts = [
-      ...posts.filter((p) => p.id !== postToModify.id),
-      postToModify,
-    ]
-    newPosts.sort((a, b) => a.id - b.id)
-    setPosts(newPosts)
+
+    if (postToModify.publicPost) {
+      const newPosts = [
+        ...posts.filter((p) => p.id !== postToModify.id),
+        postToModify,
+      ]
+      newPosts.sort((a, b) => a.id - b.id)
+      setPosts(newPosts)
+    }
+    if (!postToModify.publicPost) {
+      const newPosts = [...posts.filter((p) => p.id !== postToModify.id)]
+      newPosts.sort((a, b) => a.id - b.id)
+      setPosts(newPosts)
+    }
     if (currUser.username === post.user.username) {
       const newUserPosts = [
         ...currUserPosts.filter((p) => p.id !== postToModify.id),
@@ -46,6 +57,9 @@ export const PostProvider = ({ children }) => {
       setCurrUserPosts(newUserPosts)
     }
   }
+  /**
+   * Fetches the logged user
+   */
   useEffect(() => {
     if (keycloak.authenticated) {
       const { given_name, family_name, preferred_username } =
@@ -68,7 +82,6 @@ export const PostProvider = ({ children }) => {
     }
     allPosts()
   }, [])
-
   return (
     <PostsContext.Provider
       value={{ posts, modifyPost, currUser, currUserPosts }}

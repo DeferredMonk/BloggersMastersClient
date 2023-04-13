@@ -6,7 +6,6 @@ import LandingPage from "./components/pages/LandingPage"
 import keycloak from "./keycloak"
 
 function App() {
-  console.log(keycloak.tokenParsed)
   return (
     <ThemeProvider theme={theme}>
       <Container className="App">

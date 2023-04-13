@@ -16,6 +16,9 @@ export const theme = createTheme({
       fontFamily: "Amatic SC",
       fontWeight: 700,
     },
+    subtitle2: {
+      fontSize: "10px",
+    },
     button: {
       fontFamily: "Roboto",
       fontWeight: 300,
