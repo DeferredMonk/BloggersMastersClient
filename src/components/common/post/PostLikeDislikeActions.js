@@ -9,7 +9,10 @@ import {
 import PostsContext from "../../../utils/PostContext"
 
 const PostLikeDislikeActions = ({ post }) => {
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState({
+    like: false,
+    dislike: false,
+  })
   const { modifyPost } = useContext(PostsContext)
   /**
    * Handles like and dislike buttons.
@@ -19,13 +22,13 @@ const PostLikeDislikeActions = ({ post }) => {
   const handleClick = async (type) => {
     try {
       if (type === "like") {
-        setLoading(true)
+        setLoading({ ...loading, like: true })
         modifyPost(await addOneToLike(post.agrees, post.id))
-        setLoading(false)
+        setLoading({ ...loading, like: false })
       } else {
-        setLoading(true)
+        setLoading({ ...loading, dislike: true })
         modifyPost(await addOneToDislike(post.disagrees, post.id))
-        setLoading(false)
+        setLoading({ ...loading, dislike: false })
       }
     } catch (e) {
       Alert(e.message)
@@ -37,7 +40,7 @@ const PostLikeDislikeActions = ({ post }) => {
         <Button
           color="primary"
           variant="contained"
-          disabled={loading}
+          disabled={loading.like}
           endIcon={<ThumbUpOffAltIcon />}
           onClick={() => handleClick("like")}
         >
@@ -48,6 +51,7 @@ const PostLikeDislikeActions = ({ post }) => {
         <Button
           color="error"
           variant="outlined"
+          disabled={loading.dislike}
           endIcon={<ThumbDownOffAltIcon />}
           onClick={() => handleClick()}
         >

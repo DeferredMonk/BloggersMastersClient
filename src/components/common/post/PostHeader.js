@@ -7,14 +7,20 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material"
-import React from "react"
+import React, { useContext } from "react"
 import { dateToFinnishFormat } from "../../../utils/Helpers"
 import { Box } from "@mui/system"
 import PostLikeDislikeActions from "./PostLikeDislikeActions"
+import PostsContext from "../../../utils/PostContext"
+import PostModify from "./PostModifyButton"
 
-const PostHeader = ({ post }) => {
+const PostHeader = ({ post, modify = true }) => {
+  const { currUser } = useContext(PostsContext)
   const user = post.user
   const created = dateToFinnishFormat(new Date(post.createdAt))
+
+  const currUserPost = currUser?.username === user.username
+
   return (
     <Box sx={styleHeader}>
       <CardHeader
@@ -22,7 +28,11 @@ const PostHeader = ({ post }) => {
         title={`${user.firstName} ${user.lastName}`}
         subheader={created}
       />
-      <PostLikeDislikeActions post={post} />
+      {!currUserPost ? (
+        <PostLikeDislikeActions post={post} />
+      ) : (
+        <>{modify && <PostModify post={post} />}</>
+      )}
     </Box>
   )
 }
