@@ -10,8 +10,6 @@ import { PostProvider } from "./utils/PostContext"
 import LandingPage from "./components/pages/LandingPage"
 
 function App() {
-  console.log(keycloak.token)
-
   return (
     <ThemeProvider theme={theme}>
       <Container className="App">

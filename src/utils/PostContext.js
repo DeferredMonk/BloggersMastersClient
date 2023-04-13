@@ -8,11 +8,12 @@ export const PostProvider = ({ children }) => {
 
   const modifyPost = async (post) => {
     const postToModify = await post
-    const removedPost = posts.filter((p) => p.id !== postToModify.id)
-    const newPostList = [...removedPost, postToModify]
-    const test = newPostList
-    console.log(test)
-    setPosts(test)
+    const newPosts = [
+      ...posts.filter((p) => p.id !== postToModify.id),
+      postToModify,
+    ]
+    newPosts.sort((a, b) => a.id - b.id)
+    setPosts(newPosts)
   }
   useEffect(() => {
     const allPosts = async () => {

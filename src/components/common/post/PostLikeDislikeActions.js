@@ -24,7 +24,7 @@ const PostLikeDislikeActions = ({ post }) => {
         setLoading(false)
       } else {
         setLoading(true)
-        await addOneToDislike(post.disagrees, post.id)
+        modifyPost(await addOneToDislike(post.disagrees, post.id))
         setLoading(false)
       }
     } catch (e) {
