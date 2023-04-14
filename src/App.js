@@ -9,8 +9,8 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Container className="App">
-        <NavBar />
         <PostProvider>
+          <NavBar />
           <LandingPage />
         </PostProvider>
       </Container>

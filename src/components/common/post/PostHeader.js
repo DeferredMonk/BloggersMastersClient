@@ -20,7 +20,6 @@ const PostHeader = ({ post, modify = true }) => {
   const created = dateToFinnishFormat(new Date(post.createdAt))
 
   const currUserPost = currUser?.username === user.username
-
   return (
     <Box sx={styleHeader}>
       <CardHeader

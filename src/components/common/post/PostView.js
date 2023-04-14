@@ -20,7 +20,13 @@ const PostView = ({ post, setEdit }) => {
         subheader={<Typography variant="subtitle2">{modifiedDate}</Typography>}
       />
       <Divider />
-      <CardContent sx={{ maxHeight: "400px", overflow: "auto" }}>
+      <CardContent
+        sx={{
+          maxHeight: "400px",
+          overflow: "auto",
+          overflowWrap: "break-word",
+        }}
+      >
         <Typography>{post.content}</Typography>
       </CardContent>
       <Divider />

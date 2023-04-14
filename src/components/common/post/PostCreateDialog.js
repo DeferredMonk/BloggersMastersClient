@@ -8,27 +8,17 @@ import {
   FormControlLabel,
   TextField,
 } from "@mui/material"
-import React, { useContext, useRef, useState } from "react"
-import PostHeader from "./PostHeader"
-import { modifyPostById } from "../../../utils/Services/PostService"
+import React, { useContext, useState } from "react"
 import PostsContext from "../../../utils/PostContext"
+import { createPost } from "../../../utils/Services/PostService"
 
-const PostModifyDialog = ({ edit, setEdit, post }) => {
-  const { modifyPost } = useContext(PostsContext)
-  const [title, setTitle] = useState({
-    path: "Title",
-    op: "replace",
-    value: "",
-  })
-  const [content, setContent] = useState({
-    path: "Content",
-    op: "replace",
-    value: "",
-  })
-  const [publicPost, setPublicPost] = useState({
-    path: "PublicPost",
-    op: "replace",
-    value: "",
+const PostCreateDialog = ({ open, setOpen }) => {
+  const { modifyPost, currUser } = useContext(PostsContext)
+  const [newPost, setNewPost] = useState({
+    title: "",
+    content: "",
+    publicPost: false,
+    userId: currUser?.id,
   })
   const [error, setError] = useState({
     title: {
@@ -42,9 +32,12 @@ const PostModifyDialog = ({ edit, setEdit, post }) => {
   })
 
   const handleClose = () => {
-    setTitle({ ...title, value: "" })
-    setContent({ ...content, value: "" })
-    setEdit(false)
+    setNewPost({
+      title: "",
+      content: "",
+      publicPost: false,
+    })
+    setOpen(false)
     setError({
       title: {
         error: false,
@@ -57,23 +50,15 @@ const PostModifyDialog = ({ edit, setEdit, post }) => {
     })
   }
 
-  const handleModifyArray = (objA, objB, objC) =>
-    [objA, objB, objC].filter((o) => o.value !== "")
-
-  const handleModify = async () => {
-    await modifyPost(
-      await modifyPostById(
-        handleModifyArray(title, content, publicPost),
-        post.id
-      )
-    )
+  const handleCreate = async () => {
+    setNewPost({ ...newPost, userId: currUser.id })
+    await modifyPost(await createPost(newPost))
     handleClose()
   }
+
   return (
-    <Dialog open={edit} onClose={handleClose}>
-      <DialogTitle sx={{ padding: 0 }}>
-        <PostHeader post={post} modify={false} />
-      </DialogTitle>
+    <Dialog open={open} onClose={handleClose}>
+      <DialogTitle sx={{ textAlign: "center" }}>Create a new post!</DialogTitle>
       <DialogContent>
         <TextField
           fullWidth
@@ -81,7 +66,6 @@ const PostModifyDialog = ({ edit, setEdit, post }) => {
           error={error.title.error}
           helperText={error.title.error && error.title.message}
           label="Title"
-          defaultValue={post.title}
           onChange={(e) => {
             if (e.target.value === "") {
               setError({
@@ -94,12 +78,15 @@ const PostModifyDialog = ({ edit, setEdit, post }) => {
                 title: { error: false },
               })
             }
-            setTitle({ ...title, value: e.target.value })
+            setNewPost({
+              ...newPost,
+              title: e.target.value,
+              userId: currUser?.id,
+            })
           }}
-          sx={{ marginTop: "30px" }}
+          sx={{ marginTop: "5px" }}
         />
         <TextField
-          defaultValue={post.content}
           multiline
           error={error.content.error}
           helperText={error.content.error && error.content.message}
@@ -118,7 +105,11 @@ const PostModifyDialog = ({ edit, setEdit, post }) => {
                 content: { error: false },
               })
             }
-            setContent({ ...content, value: e.target.value })
+            setNewPost({
+              ...newPost,
+              content: e.target.value,
+              userId: currUser?.id,
+            })
           }}
           fullWidth
           minRows={4}
@@ -126,9 +117,12 @@ const PostModifyDialog = ({ edit, setEdit, post }) => {
         <FormControlLabel
           control={
             <Checkbox
-              defaultChecked={post.publicPost}
               onChange={(e) =>
-                setPublicPost({ ...publicPost, value: e.target.checked })
+                setNewPost({
+                  ...newPost,
+                  publicPost: e.target.checked,
+                  userId: currUser?.id,
+                })
               }
             />
           }
@@ -141,14 +135,19 @@ const PostModifyDialog = ({ edit, setEdit, post }) => {
         </Button>
         <Button
           variant="contained"
-          onClick={handleModify}
-          disabled={error.content.error || error.title.error}
+          onClick={handleCreate}
+          disabled={
+            error.content.error ||
+            error.title.error ||
+            newPost.title === "" ||
+            newPost.content === ""
+          }
         >
-          Save
+          Create
         </Button>
       </DialogActions>
     </Dialog>
   )
 }
 
-export default PostModifyDialog
+export default PostCreateDialog

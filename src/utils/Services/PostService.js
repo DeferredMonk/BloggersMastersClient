@@ -71,7 +71,7 @@ export const addOneToDislike = async (disagrees, id) => {
 }
 /**
  * Modifies resource
- * @returns {promise {array}} the new value of liked
+ * @returns {promise {array}} modified resource
  */
 export const modifyPostById = async (data, id) => {
   try {
@@ -79,6 +79,18 @@ export const modifyPostById = async (data, id) => {
       `https://localhost:7097/api/post/${id}?target=none`,
       data
     )
+    return await res.data
+  } catch (e) {
+    console.log(e.message)
+  }
+}
+/**
+ * Create a new post
+ * @returns {promise {array}} new resource
+ */
+export const createPost = async (post) => {
+  try {
+    const res = await axios.post(`https://localhost:7097/api/post/`, post)
     return await res.data
   } catch (e) {
     console.log(e.message)
