@@ -1,15 +1,17 @@
 import React, { useState } from "react"
 import EditIcon from "@mui/icons-material/Edit"
-import { Box, CardActions, IconButton } from "@mui/material"
+import { Box, CardActions, IconButton, Tooltip } from "@mui/material"
 import PostModifyDialog from "./PostModifyDialog"
 
 const PostModifyButton = ({ post }) => {
   const [edit, setEdit] = useState()
   return (
     <CardActions>
-      <IconButton onClick={() => setEdit(true)}>
-        <EditIcon />
-      </IconButton>
+      <Tooltip title="Modify">
+        <IconButton onClick={() => setEdit(true)}>
+          <EditIcon />
+        </IconButton>
+      </Tooltip>
       <PostModifyDialog edit={edit} setEdit={setEdit} post={post} />
     </CardActions>
   )

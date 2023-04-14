@@ -8,6 +8,7 @@ import {
 } from "@mui/material"
 import React from "react"
 import SignButton from "./SignButton"
+import CreateNewPostButton from "./CreateNewPostButton"
 
 const NavBar = () => {
   return (
@@ -16,6 +17,7 @@ const NavBar = () => {
         <Typography variant="h1" sx={{ flexGrow: 1 }}>
           BloggersMasters
         </Typography>
+        <CreateNewPostButton />
         <SignButton />
       </Box>
       <Divider />
