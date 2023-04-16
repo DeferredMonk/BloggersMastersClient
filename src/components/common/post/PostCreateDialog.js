@@ -7,19 +7,20 @@ import {
   DialogTitle,
   FormControlLabel,
   TextField,
-} from "@mui/material"
-import React, { useContext, useState } from "react"
-import PostsContext from "../../../utils/PostContext"
-import { createPost } from "../../../utils/Services/PostService"
+} from "@mui/material";
+import React, { useContext, useState } from "react";
+import PostsContext from "../../../utils/PostContext";
+import { createPost } from "../../../utils/Services/PostService";
 
 const PostCreateDialog = ({ open, setOpen }) => {
-  const { modifyPost, currUser } = useContext(PostsContext)
+  const { modifyPost, currUser } = useContext(PostsContext);
+  const [loading, setLoading] = useState(false);
   const [newPost, setNewPost] = useState({
     title: "",
     content: "",
     publicPost: false,
     userId: currUser?.id,
-  })
+  });
   const [error, setError] = useState({
     title: {
       error: false,
@@ -29,15 +30,15 @@ const PostCreateDialog = ({ open, setOpen }) => {
       error: false,
       message: "Invalid input",
     },
-  })
+  });
 
   const handleClose = () => {
     setNewPost({
       title: "",
       content: "",
       publicPost: false,
-    })
-    setOpen(false)
+    });
+    setOpen(false);
     setError({
       title: {
         error: false,
@@ -47,14 +48,16 @@ const PostCreateDialog = ({ open, setOpen }) => {
         error: false,
         message: "Invalid input",
       },
-    })
-  }
+    });
+  };
 
   const handleCreate = async () => {
-    setNewPost({ ...newPost, userId: currUser.id })
-    await modifyPost(await createPost(newPost))
-    handleClose()
-  }
+    setLoading(true);
+    setNewPost({ ...newPost, userId: currUser.id });
+    await modifyPost(await createPost(newPost));
+    handleClose();
+    setLoading(false);
+  };
 
   return (
     <Dialog open={open} onClose={handleClose}>
@@ -71,18 +74,18 @@ const PostCreateDialog = ({ open, setOpen }) => {
               setError({
                 ...error,
                 title: { error: true, message: "Invalid input" },
-              })
+              });
             } else {
               setError({
                 ...error,
                 title: { error: false },
-              })
+              });
             }
             setNewPost({
               ...newPost,
               title: e.target.value,
               userId: currUser?.id,
-            })
+            });
           }}
           sx={{ marginTop: "5px" }}
         />
@@ -98,18 +101,18 @@ const PostCreateDialog = ({ open, setOpen }) => {
               setError({
                 ...error,
                 content: { error: true, message: "Invalid input" },
-              })
+              });
             } else {
               setError({
                 ...error,
                 content: { error: false },
-              })
+              });
             }
             setNewPost({
               ...newPost,
               content: e.target.value,
               userId: currUser?.id,
-            })
+            });
           }}
           fullWidth
           minRows={4}
@@ -140,14 +143,15 @@ const PostCreateDialog = ({ open, setOpen }) => {
             error.content.error ||
             error.title.error ||
             newPost.title === "" ||
-            newPost.content === ""
+            newPost.content === "" ||
+            loading
           }
         >
           Create
         </Button>
       </DialogActions>
     </Dialog>
-  )
-}
+  );
+};
 
-export default PostCreateDialog
+export default PostCreateDialog;

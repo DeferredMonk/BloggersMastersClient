@@ -1,17 +1,17 @@
-import axios from "axios"
-
+import axios from "axios";
+const connectionString = process.env.REACT_APP_API_URI;
 /**
  * Gets all users from the database
  * @returns {promise {array}} Array of users
  */
 export const getAllUsers = async () => {
   try {
-    const res = await axios.get("https://localhost:7097/api/user")
-    return await res.data
+    const res = await axios.get(`${connectionString}/user`);
+    return await res.data;
   } catch (e) {
-    console.log(e.message)
+    console.log(e.message);
   }
-}
+};
 /**
  * Creates a new user
  * @param {object} user the user to create
@@ -19,12 +19,12 @@ export const getAllUsers = async () => {
  */
 export const CreateNewUser = async (user) => {
   try {
-    const res = await axios.post("https://localhost:7097/api/user", user)
-    return await res.data
+    const res = await axios.post(`${connectionString}/user`, user);
+    return await res.data;
   } catch (e) {
-    throw e
+    throw e;
   }
-}
+};
 /**
  * Return a user from the database based on usernmae or id
  * @param {string} username the username wanted if search by id intended leave an empty string
@@ -33,12 +33,12 @@ export const CreateNewUser = async (user) => {
  */
 export const getUserByIdOrUsername = async (username, id = 0) => {
   try {
-    username = username === "" ? "none" : username
+    username = username === "" ? "none" : username;
     const res = await axios.get(
-      `https://localhost:7097/api/user/${id}?username=${username}`
-    )
-    return await res.data
+      `${connectionString}/user/${id}?username=${username}`
+    );
+    return await res.data;
   } catch (e) {
-    console.log(e.message)
+    console.log(e.message);
   }
-}
+};

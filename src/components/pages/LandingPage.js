@@ -1,19 +1,18 @@
-import { Box } from "@mui/system"
-import React, { useContext, useState } from "react"
-import Post from "../common/post/Post"
-import PostsContext from "../../utils/PostContext"
-import { Tab, Tabs } from "@mui/material"
-import keycloak from "../../keycloak"
-import { TabContext, TabPanel } from "@mui/lab"
-import PostsList from "../common/post/PostsList"
+import { Box } from "@mui/system";
+import React, { useContext, useState } from "react";
+import PostsContext from "../../utils/PostContext";
+import { Tab, Tabs } from "@mui/material";
+import keycloak from "../../keycloak";
+import { TabContext, TabPanel } from "@mui/lab";
+import PostsList from "../common/post/PostsList";
 
 const LandingPage = () => {
-  const { posts, currUserPosts } = useContext(PostsContext)
-  const [value, setValue] = useState("0")
+  const { posts, currUserPosts } = useContext(PostsContext);
+  const [value, setValue] = useState("0");
 
   const handleChange = (event, newValue) => {
-    setValue(newValue)
-  }
+    setValue(newValue);
+  };
 
   return (
     <Box sx={style}>
@@ -30,16 +29,16 @@ const LandingPage = () => {
         </TabPanel>
       </TabContext>
     </Box>
-  )
-}
+  );
+};
 
 const style = {
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-}
+};
 const tabStyle = {
   padding: 0,
-}
+};
 
-export default LandingPage
+export default LandingPage;
