@@ -8,7 +8,7 @@ const PostsContext = createContext();
 export const PostProvider = ({ children }) => {
   const [posts, setPosts] = useState();
   const [currUser, setCurrUser] = useState();
-  const [currUserPosts, setCurrUserPosts] = useState();
+  const [currUserPosts, setCurrUserPosts] = useState([]);
   /**
    * Creates or gets a new user, depending on existance of user in database
    * @param {Object} user the object of the new user
@@ -34,7 +34,6 @@ export const PostProvider = ({ children }) => {
    */
   const modifyPost = async (post) => {
     const postToModify = await post;
-    console.log(postToModify);
     if (postToModify.publicPost) {
       const newPosts = [
         ...posts.filter((p) => p.id !== postToModify.id),
