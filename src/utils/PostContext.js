@@ -8,7 +8,7 @@ const PostsContext = createContext();
 export const PostProvider = ({ children }) => {
   const [posts, setPosts] = useState();
   const [currUser, setCurrUser] = useState();
-  const [currUserPosts, setCurrUserPosts] = useState([]);
+  const [currUserPosts, setCurrUserPosts] = useState();
   /**
    * Creates or gets a new user, depending on existance of user in database
    * @param {Object} user the object of the new user
@@ -48,10 +48,14 @@ export const PostProvider = ({ children }) => {
       setPosts(newPosts);
     }
     if (currUser.username === post.user.username) {
-      const newUserPosts = [
-        ...currUserPosts.filter((p) => p.id !== postToModify.id),
-        postToModify,
-      ];
+      console.log(currUserPosts, currUserPosts === undefined);
+      const newUserPosts =
+        currUserPosts !== undefined
+          ? [
+              ...currUserPosts.filter((p) => p.id !== postToModify.id),
+              postToModify,
+            ]
+          : [postToModify];
       newUserPosts.sort((a, b) => a.id - b.id);
       setCurrUserPosts(newUserPosts);
     }
