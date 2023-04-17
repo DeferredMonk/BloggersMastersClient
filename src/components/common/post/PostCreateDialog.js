@@ -49,6 +49,7 @@ const PostCreateDialog = ({ open, setOpen }) => {
         message: "Invalid input",
       },
     });
+    setLoading(false);
   };
 
   const handleCreate = async () => {
@@ -56,7 +57,6 @@ const PostCreateDialog = ({ open, setOpen }) => {
     setNewPost({ ...newPost, userId: currUser.id });
     await modifyPost(await createPost(newPost));
     handleClose();
-    setLoading(false);
   };
 
   return (
