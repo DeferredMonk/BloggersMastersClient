@@ -2,6 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import { getAllPosts, getAllPostsOfUser } from "./Services/PostService";
 import keycloak from "../keycloak";
 import { CreateNewUser, getUserByIdOrUsername } from "./Services/UserService";
+import { useMediaQuery } from "@mui/material";
 
 const PostsContext = createContext();
 
@@ -9,6 +10,7 @@ export const PostProvider = ({ children }) => {
   const [posts, setPosts] = useState();
   const [currUser, setCurrUser] = useState();
   const [currUserPosts, setCurrUserPosts] = useState();
+  const minWidth = useMediaQuery('(min-width:1000px)')
   /**
    * Creates or gets a new user, depending on existance of user in database
    * @param {Object} user the object of the new user
@@ -87,7 +89,7 @@ export const PostProvider = ({ children }) => {
   }, []);
   return (
     <PostsContext.Provider
-      value={{ posts, modifyPost, currUser, currUserPosts }}
+      value={{ posts, modifyPost, currUser, currUserPosts, minWidth }}
     >
       {children}
     </PostsContext.Provider>
