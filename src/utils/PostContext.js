@@ -41,12 +41,12 @@ export const PostProvider = ({ children }) => {
         ...posts.filter((p) => p.id !== postToModify.id),
         postToModify,
       ];
-      newPosts.sort((a, b) => a.id - b.id);
+      newPosts.sort((a, b) => b.id - a.id);
       setPosts(newPosts);
     }
     if (!postToModify.publicPost) {
       const newPosts = [...posts.filter((p) => p.id !== postToModify.id)];
-      newPosts.sort((a, b) => a.id - b.id);
+      newPosts.sort((a, b) => b.id - a.id);
       setPosts(newPosts);
     }
     if (currUser.username === post.user.username) {
@@ -58,7 +58,7 @@ export const PostProvider = ({ children }) => {
               postToModify,
             ]
           : [postToModify];
-      newUserPosts.sort((a, b) => a.id - b.id);
+      newUserPosts.sort((a, b) => b.id - a.id);
       setCurrUserPosts(newUserPosts);
     }
   };
@@ -83,6 +83,7 @@ export const PostProvider = ({ children }) => {
   useEffect(() => {
     const allPosts = async () => {
       const postss = await getAllPosts();
+      postss.sort((a, b) => b.id - a.id);
       setPosts(postss);
     };
     allPosts();
