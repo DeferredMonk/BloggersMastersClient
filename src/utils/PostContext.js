@@ -41,7 +41,7 @@ export const PostProvider = ({ children }) => {
     }
   };
   /**
-   *
+   * searches all posts based on title, content, creation time, and full name
    * @param {string} toSearch the word to search
    */
   const searchEngine = (toSearch) => {
