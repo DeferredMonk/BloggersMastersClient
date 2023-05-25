@@ -7,16 +7,17 @@ import { initialize } from "./keycloak"
 const root = ReactDOM.createRoot(document.getElementById("root"))
 
 const setup = async () => {
-  try {
-    await initialize()
-    return root.render(<App />)
-  } catch (e) {
-    return root.render(
-      <React.StrictMode>
-        <div>Error connecting to keycloak</div>
-      </React.StrictMode>
-    )
-  }
+  // try {
+  //   await initialize()
+  //   return root.render(<App />)
+  // } catch (e) {
+  //   return root.render(
+  //     <React.StrictMode>
+  //       <div>Error connecting to keycloak</div>
+  //     </React.StrictMode>
+  //   )
+  // }
+  return root.render(<App />)
 }
 setup()
 // If you want to start measuring performance in your app, pass a function

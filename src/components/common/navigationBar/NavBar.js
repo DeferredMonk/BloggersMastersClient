@@ -4,11 +4,14 @@ import {
   Container,
   Divider,
   IconButton,
+  InputBase,
+  TextField,
   Typography,
 } from "@mui/material"
 import React from "react"
 import SignButton from "./SignButton"
 import CreateNewPostButton from "./CreateNewPostButton"
+import Search from "./Search"
 
 const NavBar = () => {
   return (
@@ -17,6 +20,7 @@ const NavBar = () => {
         <Typography variant="h1" sx={{ flexGrow: 1 }}>
           BloggersMasters
         </Typography>
+        <Search />
         <CreateNewPostButton />
         <SignButton />
       </Box>
