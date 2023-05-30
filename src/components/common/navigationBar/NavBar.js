@@ -7,11 +7,12 @@ import {
   InputBase,
   TextField,
   Typography,
-} from "@mui/material"
-import React from "react"
-import SignButton from "./SignButton"
-import CreateNewPostButton from "./CreateNewPostButton"
-import Search from "./Search"
+} from "@mui/material";
+import React from "react";
+import SignButton from "./SignButton";
+import CreateNewPostButton from "./CreateNewPostButton";
+import NavBarSearch from "./NavBarSearch";
+import MobileSearch from "./MobileSearch";
 
 const NavBar = () => {
   return (
@@ -20,19 +21,20 @@ const NavBar = () => {
         <Typography variant="h1" sx={{ flexGrow: 1 }}>
           BloggersMasters
         </Typography>
-        <Search />
+        <NavBarSearch />
         <CreateNewPostButton />
         <SignButton />
       </Box>
       <Divider />
+      <MobileSearch />
     </Container>
-  )
-}
+  );
+};
 
 const style = {
   display: "flex",
   margin: "1%",
   justifyContent: "center",
-}
+};
 
-export default NavBar
+export default NavBar;

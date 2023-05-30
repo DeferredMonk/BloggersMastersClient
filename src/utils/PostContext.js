@@ -49,12 +49,15 @@ export const PostProvider = ({ children }) => {
       setPosts(
         unfilteredPosts.filter(
           (item) =>
-            item.title.indexOf(toSearch) !== -1 ||
-            item.content.indexOf(toSearch) !== -1 ||
-            item.createdAt.indexOf(toSearch) !== -1 ||
-            (item.user.firstName + " " + item.user.lastName).indexOf(
-              toSearch
-            ) !== -1
+            item.title.toUpperCase().indexOf(toSearch.toUpperCase()) !== -1 ||
+            item.content.toUpperCase().indexOf(toSearch.toUpperCase()) !== -1 ||
+            item.createdAt.toUpperCase().indexOf(toSearch.toUpperCase()) !==
+              -1 ||
+            (
+              item.user.firstName.toUpperCase() +
+              " " +
+              item.user.lastName.toUpperCase()
+            ).indexOf(toSearch.toUpperCase()) !== -1
         )
       );
     else {
