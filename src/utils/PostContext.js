@@ -8,9 +8,19 @@ const PostsContext = createContext();
 
 export const PostProvider = ({ children }) => {
   const [posts, setPosts] = useState();
+  const [unfilteredPosts, setUnfilteredPosts] = useState();
   const [currUser, setCurrUser] = useState();
   const [currUserPosts, setCurrUserPosts] = useState();
-  const minWidth = useMediaQuery('(min-width:1000px)')
+  const minWidth = useMediaQuery("(min-width:1000px)");
+
+  /**
+   * Function to update posts and unfiltered posts at the same time
+   * @param {Array} post list of posts
+   */
+  const updatePosts = (post) => {
+    setPosts(post);
+    setUnfilteredPosts(post);
+  };
   /**
    * Creates or gets a new user, depending on existance of user in database
    * @param {Object} user the object of the new user
@@ -31,6 +41,31 @@ export const PostProvider = ({ children }) => {
     }
   };
   /**
+   * searches all posts based on title, content, creation time, and full name
+   * @param {string} toSearch the word to search
+   */
+  const searchEngine = (toSearch) => {
+    if (toSearch !== "")
+      setPosts(
+        unfilteredPosts.filter(
+          (item) =>
+            item.title.toUpperCase().indexOf(toSearch.toUpperCase()) !== -1 ||
+            item.content.toUpperCase().indexOf(toSearch.toUpperCase()) !== -1 ||
+            item.createdAt.toUpperCase().indexOf(toSearch.toUpperCase()) !==
+              -1 ||
+            (
+              item.user.firstName.toUpperCase() +
+              " " +
+              item.user.lastName.toUpperCase()
+            ).indexOf(toSearch.toUpperCase()) !== -1
+        )
+      );
+    else {
+      setPosts(unfilteredPosts);
+    }
+  };
+
+  /**
    * Adds and filters the modified post
    *  and updates the posts state
    */
@@ -42,15 +77,14 @@ export const PostProvider = ({ children }) => {
         postToModify,
       ];
       newPosts.sort((a, b) => b.id - a.id);
-      setPosts(newPosts);
+      updatePosts(newPosts);
     }
     if (!postToModify.publicPost) {
       const newPosts = [...posts.filter((p) => p.id !== postToModify.id)];
       newPosts.sort((a, b) => b.id - a.id);
-      setPosts(newPosts);
+      updatePosts(newPosts);
     }
     if (currUser.username === post.user.username) {
-      console.log(currUserPosts, currUserPosts === undefined);
       const newUserPosts =
         currUserPosts !== undefined
           ? [
@@ -84,13 +118,20 @@ export const PostProvider = ({ children }) => {
     const allPosts = async () => {
       const postss = await getAllPosts();
       postss.sort((a, b) => b.id - a.id);
-      setPosts(postss);
+      updatePosts(postss);
     };
     allPosts();
   }, []);
   return (
     <PostsContext.Provider
-      value={{ posts, modifyPost, currUser, currUserPosts, minWidth }}
+      value={{
+        posts,
+        modifyPost,
+        currUser,
+        currUserPosts,
+        minWidth,
+        searchEngine,
+      }}
     >
       {children}
     </PostsContext.Provider>

@@ -5,7 +5,6 @@ import PostsContext from "../../../utils/PostContext";
 
 const PostsList = ({ posts }) => {
   const { minWidth } = useContext(PostsContext);
-  console.log(minWidth)
   return (
     <>
       {posts === undefined ? (
